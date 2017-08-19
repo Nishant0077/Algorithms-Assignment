@@ -1,6 +1,5 @@
-// Java implementation of Kosaraju's algorithm to print all SCCs
-import java.io.*;
 
+import java.io.*;
 import java.util.Iterator;
 //import java.util.Stack;
 //import java.util.LinkedList;
@@ -9,32 +8,34 @@ import java.util.Iterator;
 // This class represents a directed graph using adjacency list
 // representation
 
-
 class Graph
 {
     private int V;   // No. of vertices
     private MyLinkedList3[] adj; //Adjacency List
  
-    //Constructor
+    //Constructor for the graph
     Graph(int v)
     {
         V = v;
         adj = new MyLinkedList3[v + 1];
+        	
         for (int i=1; i < v + 1; ++i)
             adj[i] = new MyLinkedList3();
     }
  
     //Function to add an edge into the graph
-    void addEdge(int v, int w)  { adj[v].addFirst(w); }
+    void addEdge(int v, int w)  
+    { 
+    	adj[v].addFirst(w);
+    }
  
-    // A recursive function to print DFS starting from v
+    // A recursive function to print DFS starting from a vertex v
     void DFSUtil(int v,boolean visited[]) throws IOException
     {
-        // Mark the current node as visited and print it
+        // Mark the current node as visited and print it to the file
         visited[v] = true;
         FW f = new FW();
-        f.CreateAndWriteToFile(Integer.toString(v));
-       
+        f.CreateAndWriteToFile(Integer.toString(v));       
  
         int n;
  
@@ -111,8 +112,7 @@ class Graph
         while (stack.isEmpty() == false)
         {
             // Pop a vertex from stack
-            int v = (int)stack.pop();
-            
+            int v = (int)stack.pop();          
             
  
             // Print Strongly connected component of the popped vertex
@@ -131,9 +131,10 @@ class Graph
     {
     	// read the text file; returns an array containing the numbers in the text file
     	readFile r = new readFile();
-    	// copy the data in dataArray
+    	
+    	// copy the data in dataArray. Enter the filename here  	
        	int[] dataArray = r.readFile("C:/Users/User/Desktop/vertices.txt");
-       	int sizeOfDataArray = r.readFile("C:/Users/User/Desktop/vertices.txt").length;      	
+       	int sizeOfDataArray = dataArray.length;      	
        	
        	//System.out.println(sizeOfDataArray);
     	
@@ -158,17 +159,7 @@ class Graph
         
         FW f = new FW();
         f.CreateAndWriteToFile("Component");
-        g.printSCCs();
-        
-                
-      
-      
-      
-      
-      
-      
-      
-       
+        g.printSCCs();      
               
         
        // r.closeFile();

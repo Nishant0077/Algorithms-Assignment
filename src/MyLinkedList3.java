@@ -5,103 +5,106 @@ public class MyLinkedList3<AnyType> implements Iterable<AnyType>
 {
    private Node<AnyType> head;
 
- /**
-   *  Constructs an empty list
-   */
-   
+   // constructor for the linked list
    public MyLinkedList3()
    {
       head = null;
    }
    
- /**
-   *  Returns true if the list is empty
-   *
-   */
+   // check if list is empty or not
    public boolean isEmpty()
    {
       return head == null;
    }
- /**
-   *  Inserts a new node at the beginning of this list.
-   *
-   */
+ 
+   // add a new node to the beginning of the list having the item passed as
+   // parameter
+   
    public void addFirst(AnyType item)
    {
       head = new Node<AnyType>(item, head);
    }
- /**
-   *  Returns the first element in the list.
-   *
-   */
+ 
+   // return the data of the head node
+   // if there is no head, return null
+   
    public AnyType getFirst()
    {
-      if(head == null) throw new NoSuchElementException();
+      if(head == null) 
+    	  throw new NoSuchElementException();
 
       return head.data;
    }
- /**
-   *  Removes the first element in the list.
-   *
-   */
+   
+   // remove the first element from the list and return its data
+   // assigns the second node as the head node
+   
    public AnyType removeFirst()
    {
       AnyType tmp = getFirst();
       head = head.next;
       return tmp;
    }
- /**
-   *  Inserts a new node to the end of this list.
-   *
-   */
+ 
+   // insert a new node at the end of the list
+   
    public void addLast(AnyType item)
    {
+	   // if there is no head, make a new node as the head
+	   
       if( head == null)
          addFirst(item);
+      
+      // if there is a head, keep traversing the list until the last
+      // node is found. Create a new node which would be the next node for 
+      // the last node found
+      
       else
       {
          Node<AnyType> tmp = head;
-         while(tmp.next != null) tmp = tmp.next;
+         
+         while(tmp.next != null) 
+        	 tmp = tmp.next;
 
          tmp.next = new Node<AnyType>(item, null);
       }
    }
- /**
-   *  Returns the last element in the list.
-   *
-   */
+   
+   // return the last element in the list
    public AnyType getLast()
    {
-      if(head == null) throw new NoSuchElementException();
+	   // throw error if there is no head
+      if(head == null) 
+    	  throw new NoSuchElementException();
 
       Node<AnyType> tmp = head;
-      while(tmp.next != null) tmp = tmp.next;
+      
+      // traverse the whole list to find the last node
+      while(tmp.next != null) 
+    	  tmp = tmp.next;
 
+      // return the data of the last node
       return tmp.data;
    }
- /**
-   *  Removes all nodes from the list.
-   *
-   */
+
+   // remove all nodes from list
+   // makes the head null
    public void clear()
    {
       head = null;
    }
- /**
-   *  Returns true if this list contains the specified element.
-   *
-   */
+
+   // check if the given element exists in the list
    public boolean contains(AnyType x)
    {
       for(AnyType tmp : this)
-         if(tmp.equals(x)) return true;
+         if(tmp.equals(x)) 
+        	 return true;
 
       return false;
    }
- /**
-   *  Returns the data at the specified position in the list.
-   *
-   */
+
+   // returns the data of the node at the given position
    public AnyType get(int pos)
    {
       if (head == null) throw new IndexOutOfBoundsException();
@@ -113,112 +116,8 @@ public class MyLinkedList3<AnyType> implements Iterable<AnyType>
 
       return tmp.data;
    }
- /**
-   *  Returns a string representation
-   *
-   */
-   public String toString()
-   {
-      StringBuffer result = new StringBuffer();
-      for(Object x : this)
-      	result.append(x + " ");
-
-      return result.toString();
-   }
- /**
-   *  Inserts a new node after a node containing the key.
-   *
-   */
-   public void insertAfter(AnyType key, AnyType toInsert)
-   {
-      Node<AnyType> tmp = head;
-
-      while(tmp != null && !tmp.data.equals(key)) tmp = tmp.next;
-
-      if(tmp != null)
-         tmp.next = new Node<AnyType>(toInsert, tmp.next);
-   }
- /**
-   *  Inserts a new node before a node containing the key.
-   *
-   */
-   public void insertBefore(AnyType key, AnyType toInsert)
-   {
-      if(head == null) return;
-
-      if(head.data.equals(key))
-      {
-         addFirst(toInsert);
-         return;
-      }
-
-      Node<AnyType> prev = null;
-      Node<AnyType> cur = head;
-
-      while(cur != null && !cur.data.equals(key))
-      {
-         prev = cur;
-         cur = cur.next;
-      }
-      //insert between cur and prev
-      if(cur != null)
-         prev.next = new Node<AnyType>(toInsert, cur);
-   }
- /**
-   *  Removes the first occurrence of the specified element in this list.
-   *
-   */
-   public void remove(AnyType key)
-   {
-      if(head == null)
-         throw new RuntimeException("cannot delete");
-
-      if( head.data.equals(key) )
-      {
-         head = head.next;
-         return;
-      }
-
-      Node<AnyType> cur  = head;
-      Node<AnyType> prev = null;
-
-      while(cur != null && !cur.data.equals(key) )
-      {
-         prev = cur;
-         cur = cur.next;
-      }
-
-      if(cur == null)
-         throw new RuntimeException("cannot delete");
-
-      //delete cur node
-      prev.next = cur.next;
-   }
- /**
-   *  Returns a deep copy of the list
-   *  Complexity: O(n^2)
-   */
-   public  LinkedList<AnyType> copy1()
-   {
-      LinkedList<AnyType> twin = new LinkedList<AnyType>();
-      Node<AnyType> tmp = head;
-      while(tmp != null)
-      {
-         twin.addLast( tmp.data );
-         tmp = tmp.next;
-      }
-
-      return twin;
-   }
-
-
-
-
- /*******************************************************
- *
- *  The Node class
- *
- ********************************************************/
+ 
+   // the node class
    private static class Node<AnyType>
    {
       private AnyType data;
@@ -231,17 +130,15 @@ public class MyLinkedList3<AnyType> implements Iterable<AnyType>
       }
    }
 
- /*******************************************************
- *
- *  The Iterator class
- *
- ********************************************************/
 
+   // iterator for linked list
+   
    public Iterator<AnyType> iterator()
    {
       return new LinkedListIterator();
    }
 
+   
    private class LinkedListIterator  implements Iterator<AnyType>
    {
       private Node<AnyType> nextNode;
@@ -251,20 +148,23 @@ public class MyLinkedList3<AnyType> implements Iterable<AnyType>
          nextNode = head;
       }
 
+      // check if a next node exists
       public boolean hasNext()
       {
          return nextNode != null;
       }
 
+      // get the next node in the list
       public AnyType next()
       {
-         if (!hasNext()) throw new NoSuchElementException();
+         if (!hasNext()) 
+        	 throw new NoSuchElementException();
+         
          AnyType res = nextNode.data;
          nextNode = nextNode.next;
          return res;
       }
 
-      public void remove() { throw new UnsupportedOperationException(); }
    }
 
 }
